@@ -3,54 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Arc Wallet Checker</title>
+  <title>Arc Wallet Checker Pro</title>
   <style>
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(180deg, #0f172a, #020617);
+      background: linear-gradient(180deg, #020617, #0f172a);
       color: #fff;
       min-height: 100vh;
       padding: 24px;
     }
 
     .container {
-      max-width: 950px;
+      max-width: 1100px;
       margin: 0 auto;
     }
 
     .hero {
       text-align: center;
-      margin-top: 30px;
-      margin-bottom: 30px;
+      margin-top: 24px;
+      margin-bottom: 28px;
     }
 
     .hero h1 {
       font-size: 42px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .hero p {
       color: #94a3b8;
       margin: 0;
+      font-size: 15px;
     }
 
     .panel {
-      background: rgba(30, 41, 59, 0.85);
+      background: rgba(30, 41, 59, 0.82);
       border: 1px solid rgba(148, 163, 184, 0.15);
-      border-radius: 18px;
-      padding: 20px;
+      border-radius: 20px;
+      padding: 22px;
       backdrop-filter: blur(10px);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
     }
 
     .input-row {
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
-      margin-top: 16px;
+      margin-top: 14px;
     }
 
     input {
@@ -74,16 +75,8 @@
       font-size: 14px;
     }
 
-    .btn-primary {
-      background: #22c55e;
-      color: white;
-    }
-
-    .btn-secondary {
-      background: #334155;
-      color: white;
-    }
-
+    .btn-primary { background: #22c55e; color: #fff; }
+    .btn-secondary { background: #334155; color: #fff; }
     .btn-small {
       background: #1e293b;
       color: #cbd5e1;
@@ -100,11 +93,12 @@
     }
 
     .status {
-      margin-top: 20px;
+      margin-top: 18px;
       padding: 12px 14px;
       border-radius: 12px;
       display: none;
       font-size: 14px;
+      line-height: 1.5;
     }
 
     .status.info {
@@ -128,6 +122,18 @@
       color: #bbf7d0;
     }
 
+    .wallet-link {
+      margin-top: 14px;
+      font-size: 14px;
+      display: none;
+    }
+
+    a {
+      color: #86efac;
+      text-decoration: none;
+      font-size: 13px;
+    }
+
     .cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -136,7 +142,7 @@
     }
 
     .card {
-      background: rgba(15, 23, 42, 0.85);
+      background: rgba(15, 23, 42, 0.9);
       border: 1px solid rgba(148, 163, 184, 0.12);
       border-radius: 16px;
       padding: 18px;
@@ -149,7 +155,7 @@
     }
 
     .card .value {
-      font-size: 30px;
+      font-size: 28px;
       font-weight: bold;
       word-break: break-word;
     }
@@ -164,7 +170,7 @@
     }
 
     .list {
-      background: rgba(15, 23, 42, 0.85);
+      background: rgba(15, 23, 42, 0.9);
       border: 1px solid rgba(148, 163, 184, 0.12);
       border-radius: 16px;
       overflow: hidden;
@@ -180,9 +186,7 @@
       flex-wrap: wrap;
     }
 
-    .list-row:last-child {
-      border-bottom: none;
-    }
+    .list-row:last-child { border-bottom: none; }
 
     .addr {
       font-family: monospace;
@@ -208,10 +212,27 @@
       color: #cbd5e1;
     }
 
-    a {
-      color: #86efac;
-      text-decoration: none;
+    .badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .badge {
+      background: linear-gradient(90deg, rgba(34,197,94,0.12), rgba(59,130,246,0.12));
+      border: 1px solid rgba(148, 163, 184, 0.15);
+      color: #d1fae5;
+      padding: 8px 12px;
+      border-radius: 999px;
       font-size: 13px;
+    }
+
+    .empty {
+      color: #94a3b8;
+      font-size: 14px;
+      padding: 18px;
+      text-align: center;
     }
 
     .footer {
@@ -222,62 +243,35 @@
       padding-bottom: 20px;
     }
 
-    .wallet-link {
-      margin-top: 14px;
-      font-size: 14px;
-      display: none;
-    }
-
-    .empty {
-      color: #94a3b8;
-      font-size: 14px;
-      padding: 18px;
-      text-align: center;
-    }
-
     @media (max-width: 600px) {
-      .hero h1 {
-        font-size: 32px;
-      }
-
-      .input-row {
-        flex-direction: column;
-      }
-
-      button {
-        width: 100%;
-      }
+      .hero h1 { font-size: 32px; }
+      .input-row { flex-direction: column; }
+      button { width: 100%; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="hero">
-      <h1>Arc Wallet Checker</h1>
-      <p>Check your Arc on-chain activity</p>
+      <h1>Arc Wallet Checker Pro</h1>
+      <p>Score, rank, top dApps, badges and activity insights for Arc testnet wallets</p>
     </div>
 
     <div class="panel">
       <label for="walletInput">Paste Arc wallet address</label>
 
       <div class="input-row">
-        <input
-          id="walletInput"
-          type="text"
-          placeholder="0x..."
-          autocomplete="off"
-        />
+        <input id="walletInput" type="text" placeholder="0x..." autocomplete="off" />
         <button class="btn-primary" onclick="checkWallet()">Check Wallet</button>
         <button class="btn-secondary" onclick="fillSample()">Try Sample</button>
       </div>
 
       <div class="note">
-        This version is built specifically for <strong>Arc testnet</strong> and uses ArcScan explorer endpoints only.
-        If ArcScan changes or blocks public API routes, the app will show a warning instead of breaking.
+        This is an <strong>Arc-only</strong> free static version using ArcScan explorer endpoints. 
+        Wallet Score, Rank, and Airdrop Readiness are <strong>community-style metrics</strong> for fun and comparison — not official Arc scores.
       </div>
 
       <div id="statusBox" class="status"></div>
-
       <div id="walletExplorerLink" class="wallet-link"></div>
 
       <div class="cards" id="cards" style="display:none;">
@@ -295,11 +289,43 @@
           <div class="label">Total Volume (USDC)</div>
           <div class="value" id="volumeValue">0</div>
         </div>
+
+        <div class="card">
+          <div class="label">Wallet Score</div>
+          <div class="value" id="walletScore">0</div>
+        </div>
+
+        <div class="card">
+          <div class="label">Wallet Rank</div>
+          <div class="value" id="walletRank">Newbie</div>
+        </div>
+
+        <div class="card">
+          <div class="label">Airdrop Readiness</div>
+          <div class="value" id="airdropReadiness">Low</div>
+        </div>
+      </div>
+
+      <div class="section" id="badgesSection" style="display:none;">
+        <h2>Badges</h2>
+        <div class="badges" id="badgesWrap"></div>
       </div>
 
       <div class="section" id="topDappsSection" style="display:none;">
         <h2>Top dApps / Contracts</h2>
         <div class="list" id="topDappsList"></div>
+      </div>
+
+      <div class="section" id="shareSection" style="display:none;">
+        <h2>Share Result</h2>
+        <div class="list">
+          <div class="list-row">
+            <div class="addr" id="sharePreview">Ready to share</div>
+            <div class="right-actions">
+              <button class="btn-small" onclick="copyShareText()">Copy Share Text</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -316,35 +342,28 @@
       (wallet) => `${EXPLORER_BASE}/api?module=account&action=txlist&address=${wallet}&startblock=0&endblock=99999999&sort=asc`
     ];
 
+    let lastShareText = "";
+
     function fillSample() {
       document.getElementById("walletInput").value = "0x000000000000000000000000000000000000dead";
-    }
-
-    function setStatus(type, message) {
-      const box = document.getElementById("statusBox");
-      box.className = `status ${type}`;
-      box.innerText = message;
-    }
-
-    function clearStatus() {
-      const box = document.getElementById("statusBox");
-      box.className = "status";
-      box.innerText = "";
-      box.style.display = "none";
-    }
-
-    function showStatus(type, message) {
-      setStatus(type, message);
-      document.getElementById("statusBox").style.display = "block";
     }
 
     function isValidEvmAddress(address) {
       return /^0x[a-fA-F0-9]{40}$/.test(address);
     }
 
-    function shortAddr(addr) {
-      if (!addr || addr.length < 12) return addr || "";
-      return addr.slice(0, 6) + "..." + addr.slice(-4);
+    function showStatus(type, message) {
+      const box = document.getElementById("statusBox");
+      box.className = `status ${type}`;
+      box.style.display = "block";
+      box.innerText = message;
+    }
+
+    function clearStatus() {
+      const box = document.getElementById("statusBox");
+      box.className = "status";
+      box.style.display = "none";
+      box.innerText = "";
     }
 
     function normalizeAddress(value) {
@@ -399,9 +418,13 @@
       const fraction = bigintValue % divisor;
 
       let fractionStr = fraction.toString().padStart(18, "0");
-      fractionStr = fractionStr.slice(0, 4); // show 4 decimals max
+      fractionStr = fractionStr.slice(0, 4);
 
       return `${whole.toString()}.${fractionStr}`.replace(/\.?0+$/, "");
+    }
+
+    function formatNumber(n) {
+      return Number(n).toLocaleString();
     }
 
     async function tryFetchTransactions(wallet) {
@@ -417,10 +440,7 @@
           if (!res.ok) continue;
 
           const contentType = res.headers.get("content-type") || "";
-          if (!contentType.includes("application/json")) {
-            // Some explorers may return HTML page instead of JSON
-            continue;
-          }
+          if (!contentType.includes("application/json")) continue;
 
           const data = await res.json();
           const txs = parseTxArray(data);
@@ -429,7 +449,7 @@
             return { txs, endpoint: url };
           }
         } catch (err) {
-          // ignore and try next endpoint
+          // try next
         }
       }
 
@@ -441,11 +461,10 @@
       let totalVolumeWei = 0n;
       const dappSet = new Set();
       const freq = {};
+      let createdContractCount = 0;
 
       for (const tx of txs) {
         const toAddr = normalizeAddress(tx.to);
-        const fromAddr = normalizeAddress(tx.from);
-
         const valueWei = extractValueWei(tx);
         totalVolumeWei += valueWei;
 
@@ -454,15 +473,12 @@
           freq[toAddr] = (freq[toAddr] || 0) + 1;
         }
 
-        // If tx.to is missing but created_contract exists, treat it as contract interaction
         const createdContract = normalizeAddress(tx.created_contract);
         if (!toAddr && createdContract && createdContract !== walletLc) {
           dappSet.add(createdContract);
           freq[createdContract] = (freq[createdContract] || 0) + 1;
+          createdContractCount++;
         }
-
-        // If from is the wallet and to is normal address, we still count it in MVP.
-        // We cannot perfectly distinguish contracts without explorer metadata in a static site.
       }
 
       const topDapps = Object.entries(freq)
@@ -474,8 +490,81 @@
         transactions: txs.length,
         dappsUsed: dappSet.size,
         volumeWei: totalVolumeWei,
-        topDapps
+        topDapps,
+        createdContractCount
       };
+    }
+
+    function calculateScore(result) {
+      const txPoints = Math.min(result.transactions, 300);
+
+      const dappPoints = Math.min(result.dappsUsed * 20, 200);
+
+      const volumeNative = Number(formatUnits18(result.volumeWei) || 0);
+      const volumePoints = Math.min(Math.floor(volumeNative), 300);
+
+      let diversityBonus = 0;
+      if (result.dappsUsed >= 10) {
+        diversityBonus = 100;
+      } else if (result.dappsUsed >= 5) {
+        diversityBonus = 50;
+      }
+
+      const contractBonus = result.createdContractCount > 0 ? 100 : 0;
+
+      const total = Math.min(txPoints + dappPoints + volumePoints + diversityBonus + contractBonus, 1000);
+
+      return {
+        total,
+        txPoints,
+        dappPoints,
+        volumePoints,
+        diversityBonus,
+        contractBonus,
+        volumeNative
+      };
+    }
+
+    function getRank(score) {
+      if (score >= 900) return "Legend";
+      if (score >= 700) return "Whale";
+      if (score >= 450) return "Power User";
+      if (score >= 250) return "Farmer";
+      if (score >= 100) return "Explorer";
+      return "Newbie";
+    }
+
+    function getAirdropReadiness(score, dappsUsed, txCount) {
+      if (score >= 800 || (dappsUsed >= 8 && txCount >= 50)) return "Very High";
+      if (score >= 500 || (dappsUsed >= 5 && txCount >= 25)) return "High";
+      if (score >= 200 || (dappsUsed >= 3 && txCount >= 10)) return "Medium";
+      return "Low";
+    }
+
+    function getBadges(result, scoreData) {
+      const badges = [];
+
+      if (result.transactions < 10) badges.push("Fresh Wallet");
+      if (result.transactions >= 10) badges.push("Active User");
+      if (result.transactions >= 50) badges.push("Consistent User");
+      if (result.transactions >= 100) badges.push("On-Chain Grinder");
+
+      if (result.dappsUsed >= 3) badges.push("Explorer");
+      if (result.dappsUsed >= 5) badges.push("Protocol Hopper");
+      if (result.dappsUsed >= 8) badges.push("DeFi Degen");
+
+      if (scoreData.volumeNative >= 100) badges.push("Volume Mover");
+      if (scoreData.volumeNative >= 500) badges.push("Arc Whale");
+      if (scoreData.volumeNative >= 1000) badges.push("Mega Whale");
+
+      if (result.createdContractCount > 0) badges.push("Contract Creator");
+
+      if (scoreData.total >= 700) badges.push("Elite Wallet");
+      if (scoreData.total >= 900) badges.push("Legend Status");
+
+      if (!badges.length) badges.push("New Arrival");
+
+      return badges;
     }
 
     function renderWalletLink(wallet) {
@@ -489,22 +578,15 @@
       `;
     }
 
-    function renderResults(result) {
-      document.getElementById("cards").style.display = "grid";
-      document.getElementById("topDappsSection").style.display = "block";
-
-      document.getElementById("txCount").innerText = result.transactions.toLocaleString();
-      document.getElementById("dappCount").innerText = result.dappsUsed.toLocaleString();
-      document.getElementById("volumeValue").innerText = formatUnits18(result.volumeWei);
-
+    function renderTopDapps(topDapps) {
       const list = document.getElementById("topDappsList");
 
-      if (!result.topDapps.length) {
+      if (!topDapps.length) {
         list.innerHTML = `<div class="empty">No dApp / contract interactions found.</div>`;
         return;
       }
 
-      list.innerHTML = result.topDapps.map(item => `
+      list.innerHTML = topDapps.map(item => `
         <div class="list-row">
           <div class="addr">${item.address}</div>
           <div class="right-actions">
@@ -516,6 +598,39 @@
       `).join("");
     }
 
+    function renderBadges(badges) {
+      const wrap = document.getElementById("badgesWrap");
+      wrap.innerHTML = badges.map(b => `<span class="badge">${b}</span>`).join("");
+    }
+
+    function buildShareText(wallet, result, scoreData, rank, readiness) {
+      return `🚀 My Arc Wallet Score\nWallet: ${wallet}\nScore: ${scoreData.total}/1000\nRank: ${rank}\nAirdrop Readiness: ${readiness}\nTransactions: ${result.transactions}\ndApps Used: ${result.dappsUsed}\nVolume: ${formatUnits18(result.volumeWei)} USDC\nCheck yours on Arc Wallet Checker Pro!`;
+    }
+
+    function renderAll(wallet, result, scoreData) {
+      const rank = getRank(scoreData.total);
+      const readiness = getAirdropReadiness(scoreData.total, result.dappsUsed, result.transactions);
+      const badges = getBadges(result, scoreData);
+
+      document.getElementById("cards").style.display = "grid";
+      document.getElementById("badgesSection").style.display = "block";
+      document.getElementById("topDappsSection").style.display = "block";
+      document.getElementById("shareSection").style.display = "block";
+
+      document.getElementById("txCount").innerText = formatNumber(result.transactions);
+      document.getElementById("dappCount").innerText = formatNumber(result.dappsUsed);
+      document.getElementById("volumeValue").innerText = formatUnits18(result.volumeWei);
+      document.getElementById("walletScore").innerText = formatNumber(scoreData.total);
+      document.getElementById("walletRank").innerText = rank;
+      document.getElementById("airdropReadiness").innerText = readiness;
+
+      renderBadges(badges);
+      renderTopDapps(result.topDapps);
+
+      lastShareText = buildShareText(wallet, result, scoreData, rank, readiness);
+      document.getElementById("sharePreview").innerText = lastShareText;
+    }
+
     async function copyText(text) {
       try {
         await navigator.clipboard.writeText(text);
@@ -525,12 +640,31 @@
       }
     }
 
+    async function copyShareText() {
+      if (!lastShareText) {
+        alert("No result yet");
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(lastShareText);
+        alert("Share text copied!");
+      } catch {
+        alert("Copy failed");
+      }
+    }
+
     function resetUI() {
       clearStatus();
       document.getElementById("cards").style.display = "none";
+      document.getElementById("badgesSection").style.display = "none";
       document.getElementById("topDappsSection").style.display = "none";
+      document.getElementById("shareSection").style.display = "none";
       document.getElementById("walletExplorerLink").style.display = "none";
       document.getElementById("topDappsList").innerHTML = "";
+      document.getElementById("badgesWrap").innerHTML = "";
+      document.getElementById("sharePreview").innerText = "Ready to share";
+      lastShareText = "";
     }
 
     async function checkWallet() {
@@ -550,24 +684,35 @@
 
       if (txs === null) {
         document.getElementById("cards").style.display = "grid";
+        document.getElementById("badgesSection").style.display = "block";
         document.getElementById("topDappsSection").style.display = "block";
+        document.getElementById("shareSection").style.display = "block";
 
         document.getElementById("txCount").innerText = "0";
         document.getElementById("dappCount").innerText = "0";
         document.getElementById("volumeValue").innerText = "0";
+        document.getElementById("walletScore").innerText = "0";
+        document.getElementById("walletRank").innerText = "Newbie";
+        document.getElementById("airdropReadiness").innerText = "Low";
 
+        document.getElementById("badgesWrap").innerHTML = `<span class="badge">No Data Yet</span>`;
         document.getElementById("topDappsList").innerHTML =
           `<div class="empty">Explorer endpoint unavailable or unsupported right now.</div>`;
 
+        lastShareText = `Arc Wallet Checker Pro\nWallet: ${wallet}\nNo public explorer data available yet.`;
+        document.getElementById("sharePreview").innerText = lastShareText;
+
         showStatus(
           "error",
-          "ArcScan did not return a public JSON API response. The app is ready, but the explorer endpoint may need a small update later."
+          "ArcScan did not return a public JSON API response. The UI is ready, but the explorer endpoint may need a small update later."
         );
         return;
       }
 
       const result = analyzeTransactions(wallet, txs);
-      renderResults(result);
+      const scoreData = calculateScore(result);
+
+      renderAll(wallet, result, scoreData);
 
       if (result.transactions === 0) {
         showStatus(
