@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arc Wallet Checker</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #0f172a, #020617);
+      color: #fff;
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 950px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      text-align: center;
+      margin-top: 30px;
+      margin-bottom: 30px;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      color: #94a3b8;
+      margin: 0;
+    }
+
+    .panel {
+      background: rgba(30, 41, 59, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.15);
+      border-radius: 18px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    }
+
+    .input-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    input {
+      flex: 1;
+      min-width: 280px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid #334155;
+      background: #0f172a;
+      color: #fff;
+      outline: none;
+      font-size: 15px;
+    }
+
+    button {
+      padding: 14px 18px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .btn-primary {
+      background: #22c55e;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #334155;
+      color: white;
+    }
+
+    .btn-small {
+      background: #1e293b;
+      color: #cbd5e1;
+      padding: 8px 12px;
+      font-size: 12px;
+      border: 1px solid #334155;
+    }
+
+    .note {
+      margin-top: 14px;
+      color: #94a3b8;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .status {
+      margin-top: 20px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      display: none;
+      font-size: 14px;
+    }
+
+    .status.info {
+      display: block;
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      color: #bfdbfe;
+    }
+
+    .status.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      color: #fecaca;
+    }
+
+    .status.success {
+      display: block;
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      color: #bbf7d0;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      border-radius: 16px;
+      padding: 18px;
+    }
+
+    .card .label {
+      color: #94a3b8;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .card .value {
+      font-size: 30px;
+      font-weight: bold;
+      word-break: break-word;
+    }
+
+    .section {
+      margin-top: 24px;
+    }
+
+    .section h2 {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+
+    .list {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .list-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .list-row:last-child {
+      border-bottom: none;
+    }
+
+    .addr {
+      font-family: monospace;
+      font-size: 13px;
+      color: #e2e8f0;
+      word-break: break-all;
+      flex: 1;
+    }
+
+    .right-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      color: #cbd5e1;
+    }
+
+    a {
+      color: #86efac;
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    .footer {
+      text-align: center;
+      color: #64748b;
+      font-size: 13px;
+      margin-top: 36px;
+      padding-bottom: 20px;
+    }
+
+    .wallet-link {
+      margin-top: 14px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .empty {
+      color: #94a3b8;
+      font-size: 14px;
+      padding: 18px;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 32px;
+      }
+
+      .input-row {
+        flex-direction: column;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero">
+      <h1>Arc Wallet Checker</h1>
+      <p>Check your Arc on-chain activity</p>
+    </div>
+
+    <div class="panel">
+      <label for="walletInput">Paste Arc wallet address</label>
+
+      <div class="input-row">
+        <input
+          id="walletInput"
+          type="text"
+          placeholder="0x..."
+          autocomplete="off"
+        />
+        <button class="btn-primary" onclick="checkWallet()">Check Wallet</button>
+        <button class="btn-secondary" onclick="fillSample()">Try Sample</button>
+      </div>
+
+      <div class="note">
+        This version is built specifically for <strong>Arc testnet</strong> and uses ArcScan explorer endpoints only.
+        If ArcScan changes or blocks public API routes, the app will show a warning instead of breaking.
+      </div>
+
+      <div id="statusBox" class="status"></div>
+
+      <div id="walletExplorerLink" class="wallet-link"></div>
+
+      <div class="cards" id="cards" style="display:none;">
+        <div class="card">
+          <div class="label">Total Transactions</div>
+          <div class="value" id="txCount">0</div>
+        </div>
+
+        <div class="card">
+          <div class="label">dApps Used</div>
+          <div class="value" id="dappCount">0</div>
+        </div>
+
+        <div class="card">
+          <div class="label">Total Volume (USDC)</div>
+          <div class="value" id="volumeValue">0</div>
+        </div>
+      </div>
+
+      <div class="section" id="topDappsSection" style="display:none;">
+        <h2>Top dApps / Contracts</h2>
+        <div class="list" id="topDappsList"></div>
+      </div>
+    </div>
+
+    <div class="footer">
+      Built for Arc ecosystem users • Free GitHub Pages version
+    </div>
+  </div>
+
+  <script>
+    const EXPLORER_BASE = "https://testnet.arcscan.app";
+    const FALLBACK_ENDPOINTS = [
+      (wallet) => `${EXPLORER_BASE}/api/v2/addresses/${wallet}/transactions`,
+      (wallet) => `${EXPLORER_BASE}/api/v2/address/${wallet}/transactions`,
+      (wallet) => `${EXPLORER_BASE}/api?module=account&action=txlist&address=${wallet}&startblock=0&endblock=99999999&sort=asc`
+    ];
+
+    function fillSample() {
+      document.getElementById("walletInput").value = "0x000000000000000000000000000000000000dead";
+    }
+
+    function setStatus(type, message) {
+      const box = document.getElementById("statusBox");
+      box.className = `status ${type}`;
+      box.innerText = message;
+    }
+
+    function clearStatus() {
+      const box = document.getElementById("statusBox");
+      box.className = "status";
+      box.innerText = "";
+      box.style.display = "none";
+    }
+
+    function showStatus(type, message) {
+      setStatus(type, message);
+      document.getElementById("statusBox").style.display = "block";
+    }
+
+    function isValidEvmAddress(address) {
+      return /^0x[a-fA-F0-9]{40}$/.test(address);
+    }
+
+    function shortAddr(addr) {
+      if (!addr || addr.length < 12) return addr || "";
+      return addr.slice(0, 6) + "..." + addr.slice(-4);
+    }
+
+    function normalizeAddress(value) {
+      if (!value) return null;
+
+      if (typeof value === "string") {
+        return isValidEvmAddress(value) ? value.toLowerCase() : null;
+      }
+
+      if (typeof value === "object") {
+        if (typeof value.hash === "string" && isValidEvmAddress(value.hash)) {
+          return value.hash.toLowerCase();
+        }
+        if (typeof value.address === "string" && isValidEvmAddress(value.address)) {
+          return value.address.toLowerCase();
+        }
+      }
+
+      return null;
+    }
+
+    function parseTxArray(data) {
+      if (Array.isArray(data)) return data;
+      if (data && Array.isArray(data.items)) return data.items;
+      if (data && Array.isArray(data.result)) return data.result;
+      return [];
+    }
+
+    function extractValueWei(tx) {
+      if (!tx) return 0n;
+
+      let raw = null;
+
+      if (typeof tx.value === "string") {
+        raw = tx.value;
+      } else if (tx.value && typeof tx.value === "object" && typeof tx.value.value === "string") {
+        raw = tx.value.value;
+      }
+
+      if (!raw) return 0n;
+
+      try {
+        return BigInt(raw);
+      } catch {
+        return 0n;
+      }
+    }
+
+    function formatUnits18(bigintValue) {
+      const divisor = 10n ** 18n;
+      const whole = bigintValue / divisor;
+      const fraction = bigintValue % divisor;
+
+      let fractionStr = fraction.toString().padStart(18, "0");
+      fractionStr = fractionStr.slice(0, 4); // show 4 decimals max
+
+      return `${whole.toString()}.${fractionStr}`.replace(/\.?0+$/, "");
+    }
+
+    async function tryFetchTransactions(wallet) {
+      for (const makeUrl of FALLBACK_ENDPOINTS) {
+        const url = makeUrl(wallet);
+
+        try {
+          const res = await fetch(url, {
+            method: "GET",
+            headers: { "Accept": "application/json" }
+          });
+
+          if (!res.ok) continue;
+
+          const contentType = res.headers.get("content-type") || "";
+          if (!contentType.includes("application/json")) {
+            // Some explorers may return HTML page instead of JSON
+            continue;
+          }
+
+          const data = await res.json();
+          const txs = parseTxArray(data);
+
+          if (Array.isArray(txs)) {
+            return { txs, endpoint: url };
+          }
+        } catch (err) {
+          // ignore and try next endpoint
+        }
+      }
+
+      return { txs: null, endpoint: null };
+    }
+
+    function analyzeTransactions(wallet, txs) {
+      const walletLc = wallet.toLowerCase();
+      let totalVolumeWei = 0n;
+      const dappSet = new Set();
+      const freq = {};
+
+      for (const tx of txs) {
+        const toAddr = normalizeAddress(tx.to);
+        const fromAddr = normalizeAddress(tx.from);
+
+        const valueWei = extractValueWei(tx);
+        totalVolumeWei += valueWei;
+
+        if (toAddr && toAddr !== walletLc) {
+          dappSet.add(toAddr);
+          freq[toAddr] = (freq[toAddr] || 0) + 1;
+        }
+
+        // If tx.to is missing but created_contract exists, treat it as contract interaction
+        const createdContract = normalizeAddress(tx.created_contract);
+        if (!toAddr && createdContract && createdContract !== walletLc) {
+          dappSet.add(createdContract);
+          freq[createdContract] = (freq[createdContract] || 0) + 1;
+        }
+
+        // If from is the wallet and to is normal address, we still count it in MVP.
+        // We cannot perfectly distinguish contracts without explorer metadata in a static site.
+      }
+
+      const topDapps = Object.entries(freq)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10)
+        .map(([address, interactions]) => ({ address, interactions }));
+
+      return {
+        transactions: txs.length,
+        dappsUsed: dappSet.size,
+        volumeWei: totalVolumeWei,
+        topDapps
+      };
+    }
+
+    function renderWalletLink(wallet) {
+      const box = document.getElementById("walletExplorerLink");
+      box.style.display = "block";
+      box.innerHTML = `
+        View wallet on Arc Explorer:
+        <a href="https://testnet.arcscan.app/address/${wallet}" target="_blank" rel="noopener noreferrer">
+          ${wallet}
+        </a>
+      `;
+    }
+
+    function renderResults(result) {
+      document.getElementById("cards").style.display = "grid";
+      document.getElementById("topDappsSection").style.display = "block";
+
+      document.getElementById("txCount").innerText = result.transactions.toLocaleString();
+      document.getElementById("dappCount").innerText = result.dappsUsed.toLocaleString();
+      document.getElementById("volumeValue").innerText = formatUnits18(result.volumeWei);
+
+      const list = document.getElementById("topDappsList");
+
+      if (!result.topDapps.length) {
+        list.innerHTML = `<div class="empty">No dApp / contract interactions found.</div>`;
+        return;
+      }
+
+      list.innerHTML = result.topDapps.map(item => `
+        <div class="list-row">
+          <div class="addr">${item.address}</div>
+          <div class="right-actions">
+            <span class="pill">${item.interactions} interactions</span>
+            <button class="btn-small" onclick="copyText('${item.address}')">Copy</button>
+            <a href="https://testnet.arcscan.app/address/${item.address}" target="_blank" rel="noopener noreferrer">View</a>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        alert("Copied!");
+      } catch {
+        alert("Copy failed");
+      }
+    }
+
+    function resetUI() {
+      clearStatus();
+      document.getElementById("cards").style.display = "none";
+      document.getElementById("topDappsSection").style.display = "none";
+      document.getElementById("walletExplorerLink").style.display = "none";
+      document.getElementById("topDappsList").innerHTML = "";
+    }
+
+    async function checkWallet() {
+      const wallet = document.getElementById("walletInput").value.trim();
+
+      resetUI();
+
+      if (!isValidEvmAddress(wallet)) {
+        showStatus("error", "Invalid wallet address. Please paste a valid EVM address starting with 0x.");
+        return;
+      }
+
+      showStatus("info", "Checking Arc wallet... please wait.");
+      renderWalletLink(wallet);
+
+      const { txs, endpoint } = await tryFetchTransactions(wallet);
+
+      if (txs === null) {
+        document.getElementById("cards").style.display = "grid";
+        document.getElementById("topDappsSection").style.display = "block";
+
+        document.getElementById("txCount").innerText = "0";
+        document.getElementById("dappCount").innerText = "0";
+        document.getElementById("volumeValue").innerText = "0";
+
+        document.getElementById("topDappsList").innerHTML =
+          `<div class="empty">Explorer endpoint unavailable or unsupported right now.</div>`;
+
+        showStatus(
+          "error",
+          "ArcScan did not return a public JSON API response. The app is ready, but the explorer endpoint may need a small update later."
+        );
+        return;
+      }
+
+      const result = analyzeTransactions(wallet, txs);
+      renderResults(result);
+
+      if (result.transactions === 0) {
+        showStatus(
+          "success",
+          "No transactions found for this wallet, or the explorer returned an empty result."
+        );
+      } else {
+        showStatus(
+          "success",
+          `Success! Data fetched from ArcScan endpoint: ${endpoint}`
+        );
+      }
+    }
+  </script>
+</body>
+</html>
